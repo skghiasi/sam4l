@@ -50,6 +50,6 @@
 #define BOARD_OSC0_STARTUP_US     (6100UL)
 //@}
 
-#define CONFIG_DFLL0_SOURCE         GENCLK_SRC_OSC0
+
 
 #endif // USER_BOARD_H

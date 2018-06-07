@@ -38,8 +38,7 @@ do {\
 	ioport_disable_pin(pin);\
 } while (0)
 
-#define COM_PORT_RX_PIN	90
-#define COM_PORT_TX_PIN 91
+
 
 int main (void)
 {
@@ -55,6 +54,9 @@ int main (void)
 	 
 	ioport_set_pin_peripheral_mode(COM_PORT_RX_PIN, IOPORT_MODE_MUX_A);
 	ioport_set_pin_peripheral_mode(COM_PORT_TX_PIN, IOPORT_MODE_MUX_A);
+	
+	ioport_set_pin_peripheral_mode(GEN_USART_RX_PIN, IOPORT_MODE_MUX_B);
+	ioport_set_pin_peripheral_mode(GEN_USART_TX_PIN, IOPORT_MODE_MUX_B);
 		
 	//configure_LTE(); 
 	usart_serial_options_t uart_serial_options = {
@@ -63,10 +65,12 @@ int main (void)
 		.paritytype = CONF_UART_PARITY,
 		.stopbits = CONF_UART_STOP_BITS,
 	};
-
+	
+	
 	/* Configure console UART. */
 	
 	usart_serial_init(CONF_UART , &uart_serial_options) ;
+	usart_serial_init(USART_SERIAL , &uart_serial_options) ; 
 	
 	/* Insert application code here, after the board has been initialized. */
 	/* a small demo of the yellow LED on the Xplain board, including the ioport driver from asf */ 
@@ -82,16 +86,24 @@ int main (void)
 	//} while (rx_char != 'a');
 	// send a single character
 	//usart_serial_putchar(CONF_UART, 'A');
+	
+	//sysclk_enable_peripheral_clock(USART_SERIAL);
+	//usart_init_rs232(USART_SERIAL, &usart_gen_options,	sysclk_get_main_hz());
+	//usart_enable_tx(USART_SERIAL);
+	//usart_enable_rx(USART_SERIAL);
 	 
 	while (1)
 	{
-		int a = 16; 
+		int a = sysclk_get_cpu_hz();
 		char b [50]; 
-		sprintf(b , "%d" , a);  
-		delay_ms(1);   	
+		sprintf(b , "%d\n" , a);  
+		delay_ms(200);   	
 		usart_write_line(CONF_UART , b); 
+		
 		/* sample project of io init*/
 		//ioport_toggle_port_level(LED_PORT, LED_MASK);
+		//a = sysclk_get_cpu_hz(); 
+		usart_write_line(USART_SERIAL, "hello");
 					
 	}
 
