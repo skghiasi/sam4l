@@ -4,6 +4,8 @@
 
 src\ASF\sam\drivers\usart\usart.c
 
+src\LTE_interface.c
+
 src\ASF\common\services\serial\usart_serial.c
 
 src\ASF\common\services\delay\sam\cycle_counter.c

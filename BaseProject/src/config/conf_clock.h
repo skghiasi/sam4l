@@ -53,8 +53,8 @@
 //#define CONFIG_SYSCLK_INIT_PBDMASK  (1 << SYSCLK_AST)
 //#define CONFIG_SYSCLK_INIT_HSBMASK  (1 << SYSCLK_PDCA_HSB)
 
-#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_RCSYS
-//#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_OSC0
+//#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_RCSYS
+#define CONFIG_SYSCLK_SOURCE          SYSCLK_SRC_OSC0
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_PLL0
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_DFLL
 //#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_RC80M
@@ -67,7 +67,7 @@
 //#define CONFIG_RCFAST_FRANGE    2
 
 /* 0: disable PicoCache, 1: enable PicoCache  */
-#define CONFIG_HCACHE_ENABLE          1
+//#define CONFIG_HCACHE_ENABLE          1
 
 /*
  * To use low power mode for flash read mode (PS0, PS1), don't define it.
@@ -103,8 +103,8 @@
 //#define CONFIG_DFLL0_SOURCE         GENCLK_SRC_RC32K
 
 /* Fdfll = (Fclk * DFLL_mul) / DFLL_div */
-//#define CONFIG_DFLL0_FREQ           48000000UL
-//#define CONFIG_DFLL0_MUL            (CONFIG_DFLL0_FREQ / BOARD_OSC32_HZ)
-//#define CONFIG_DFLL0_DIV            1
+#define CONFIG_DFLL0_FREQ           48000000UL
+#define CONFIG_DFLL0_MUL            (CONFIG_DFLL0_FREQ / BOARD_OSC32_HZ)
+#define CONFIG_DFLL0_DIV            1
 
 #endif /* CONF_CLOCK_H_INCLUDED */

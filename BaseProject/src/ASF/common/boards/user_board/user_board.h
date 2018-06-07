@@ -35,6 +35,21 @@
 
 // External oscillator startup time
 //#define BOARD_XOSC_STARTUP_US  500000
+//! \name Board oscillator definitions
+//@{
+//! Osc frequency (Hz.) and startup time (RCOsc periods)
+#define FOSC0                     (12000000UL)
+//! Osc32 frequency (Hz.) and startup time (RCOsc periods)
+#define FOSC32                    (32768UL)
+#define BOARD_OSC32_IS_XTAL       true
+#define BOARD_OSC32_HZ            FOSC32
+#define BOARD_OSC32_STARTUP_US    (750000UL)
+#define BOARD_OSC32_SELCURR       BSCIF_OSCCTRL32_SELCURR(10)
+#define BOARD_OSC0_IS_XTAL        true
+#define BOARD_OSC0_HZ             FOSC0
+#define BOARD_OSC0_STARTUP_US     (6100UL)
+//@}
 
+#define CONFIG_DFLL0_SOURCE         GENCLK_SRC_OSC0
 
 #endif // USER_BOARD_H
