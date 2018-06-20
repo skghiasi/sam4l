@@ -32,6 +32,9 @@
 #include "conf_uart_serial.h"
 #include "LTE_interface.h"
 
+#define USART_FUNCTION 0 
+#define LED_FUNCTION 1
+
 #define ioport_set_pin_peripheral_mode(pin, mode) \
 do {\
 	ioport_set_pin_mode(pin, mode);\
@@ -39,11 +42,21 @@ do {\
 } while (0)
 
 
+/* usart receive interrupt handler */
+void CONF_UART_ISR_HANDLER(void)
+{
+	uint32_t dw_status = usart_get_status(CONF_UART);
+	if (dw_status & US_CSR_RXRDY) {
+		uint32_t received_byte;
+		usart_read(CONF_UART, &received_byte);
+		usart_write_line(CONF_UART, "HELLO");
+	}
+}
+
+
 
 int main (void)
 {
-	//const char str1[] = "Type 'a' to continue...\r\n";
-	//uint8_t rx_char = 0;
 	
 	/* Insert system clock initialization code here (sysclk_init()). */
 	sysclk_init(); 
@@ -60,6 +73,13 @@ int main (void)
 		
 	//configure_LTE(); 
 	usart_serial_options_t uart_serial_options = {
+		.baudrate = USART_SERIAL_BAUDRATE,
+		.charlength = USART_SERIAL_CHAR_LENGTH,
+		.paritytype = USART_SERIAL_PARITY,
+		.stopbits = USART_SERIAL_STOP_BIT,
+	};
+	
+	usart_serial_options_t conf_uart_serial_options = {
 		.baudrate = CONF_UART_BAUDRATE,
 		.charlength = CONF_UART_CHAR_LENGTH,
 		.paritytype = CONF_UART_PARITY,
@@ -67,44 +87,41 @@ int main (void)
 	};
 	
 	
-	/* Configure console UART. */
+	/* configuration of UART0 and UART1 */
 	
-	usart_serial_init(CONF_UART , &uart_serial_options) ;
+	usart_serial_init(CONF_UART , &conf_uart_serial_options) ;
 	usart_serial_init(USART_SERIAL , &uart_serial_options) ; 
 	
-	/* Insert application code here, after the board has been initialized. */
-	/* a small demo of the yellow LED on the Xplain board, including the ioport driver from asf */ 
 	
-	/*enable uart0 */ 
-	/*enable uart1 */ 
-	//sendString(); 
-	
-	//usart_serial_write_packet(CONF_UART, (const uint8_t*)str1, sizeof(str1) - 1);
-	//do {
-		// get a single character
-	//	usart_serial_getchar(CONF_UART, &rx_char);
-	//} while (rx_char != 'a');
-	// send a single character
-	//usart_serial_putchar(CONF_UART, 'A');
-	
-	//sysclk_enable_peripheral_clock(USART_SERIAL);
-	//usart_init_rs232(USART_SERIAL, &usart_gen_options,	sysclk_get_main_hz());
-	//usart_enable_tx(USART_SERIAL);
-	//usart_enable_rx(USART_SERIAL);
-	 
+	/* setting the type of usart interrupt: in this case receive ready*/
+	 usart_enable_interrupt(CONF_UART,US_IER_RXRDY);
+	 /* turning usart interrupt on (nested vector interrupt controller */
+	 NVIC_EnableIRQ(CONF_UART_IRQn);
 	while (1)
 	{
+	    #if USART_FUNCTION
+		uint8_t received_byte = 0 ; 
 		int a = sysclk_get_cpu_hz();
 		char b [50]; 
 		sprintf(b , "%d\n" , a);  
-		delay_ms(200);   	
-		usart_write_line(CONF_UART , b); 
+		delay_ms(200);
+		   	
+		//usart_write_line(CONF_UART , b); 
 		
 		/* sample project of io init*/
 		//ioport_toggle_port_level(LED_PORT, LED_MASK);
 		//a = sysclk_get_cpu_hz(); 
-		usart_write_line(USART_SERIAL, "hello");
-					
+		
+		//usart_write_line(USART_SERIAL, "hello");
+		
+		/* put this part of USART receive into an interrupt service routine */		
+		//usart_write_line(CONF_UART , "hello"); 		
+		usart_write_line(USART_SERIAL , "to arduino"); 			
+		#endif
+		
+		
+		
+		
 	}
 
 }
