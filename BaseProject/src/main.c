@@ -42,9 +42,9 @@ sara_functional_state_  sara_functional_state = before_run;
 #define TURN_ON_SARA_TEST 0
 #define SARA_MAIN 1
 
-#define TCP_SCENARIO 1
-#define UDP_SCENARIO 0
-#define FTP_SCENARIO 0
+#define TCP_SCENARIO 0
+#define UDP_SCENARIO 1
+
 
 #define SARA_GPIO6 PIN_PC30
 
@@ -263,17 +263,6 @@ int main (void)
 				one_time_run = 1; 
 				saraWriteCommand("AT+CMEE=2"); // setting error reporting method to verbose 
 				
-				#if FTP_SCENARIO
-					saraWriteCommand("AT+UFTP?"); 
-					saraWriteCommand("AT+UFTP=1,\"ftp.u-blox.com\"");
-					saraWriteCommand("AT+UFTP=2,\"anonymous\"");
-					saraWriteCommand("AT+UFTP=3,\"user@somedomain.com\"");
-					saraWriteCommand("AT+UFTP=6,0");
-					saraWriteCommand("AT+UDNSRN=0,\"ftp.u-blox.com\"");
-					saraWriteCommand("AT+UFTPC=1");
-					saraWriteCommand("AT+UFTPC=13");
-				#endif
-				
 				#if TCP_SCENARIO					
 					saraWriteCommand("AT+CGACT?"); 
 					saraWriteCommand("AT+CGATT?"); 
@@ -289,12 +278,13 @@ int main (void)
 				#endif
 				
 				#if UDP_SCENARIO
-					saraWriteCommand("AT+CGACT?");
-					saraWriteCommand("AT+CGATT?");
-					saraWriteCommand("AT+COPS?");
-					saraWriteCommand("AT+USOCR=17");
-					saraWriteCommand("AT+USOST=0,\"195.34.89.241\",7,13,\"TestNumberOne\"");
-					saraWriteCommand("AT+USORF=0,13"); 				
+					saraWriteCommand("AT+CGACT?"); //check the activation of GPRS profile 
+					saraWriteCommand("AT+CGATT?"); // chekc the connection of GPRS
+					saraWriteCommand("AT+COPS?");  // check network status 
+					saraWriteCommand("AT+USOCR=17"); // open a udp socket, from 0 to 6 
+					saraWriteCommand("AT+USOST=0,\"195.34.89.241\",7,13,\"TestNumberOne\"");  //On socket 0 write a message
+					saraWriteCommand("AT+USORF=0,13"); 	//read the message from socket 
+					saraWriteCommand("AT+USOCL=0"); //close socket 0 
 				#endif 
 			}
 			
@@ -307,12 +297,7 @@ int main (void)
 				saraWriteCommand("AT+CGDCONT?"); 
 				saraWriteCommand("AT+CGATT?"); 
 				
-			#if FTP_SCENARIO
-				saraWriteCommand("AT+UFTP?");
-				saraWriteCommand("AT+CGDCONT?");
-				saraWriteCommand("AT+UFTPC?");
-			#endif 
-			
+						
 			#if TCP_SCENARIO
 				
 			#endif 
