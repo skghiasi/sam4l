@@ -16,6 +16,9 @@
 #define LED_PORT 2
 #define LED_MASK (1<<7)
 
+#define SARA_PWR_ON_PORT 2
+#define SARA_PWR_ON_MASK (1 << 3)
+
 #define PIOC	2
 #define PC26	(1 << 26)
 #define PC27	(1 << 27)
