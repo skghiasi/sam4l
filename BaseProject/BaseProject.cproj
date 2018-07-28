@@ -532,6 +532,12 @@
     <Compile Include="src\LTE_interface.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\SARA_response_list.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\SARA_response_list.h">
+      <SubType>compile</SubType>
+    </Compile>
     <None Include="src\ASF\sam\drivers\usart\usart.h">
       <SubType>compile</SubType>
     </None>

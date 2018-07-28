@@ -86,6 +86,7 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../src/ASF/sam/drivers/usart/usart.c \
 ../src/LTE_interface.c \
+../src/SARA_response_list.c \
 ../src/ASF/common/services/serial/usart_serial.c \
 ../src/ASF/common/services/delay/sam/cycle_counter.c \
 ../src/ASF/common/services/clock/sam4l/dfll.c \
@@ -113,6 +114,7 @@ ASM_SRCS +=
 OBJS +=  \
 src/ASF/sam/drivers/usart/usart.o \
 src/LTE_interface.o \
+src/SARA_response_list.o \
 src/ASF/common/services/serial/usart_serial.o \
 src/ASF/common/services/delay/sam/cycle_counter.o \
 src/ASF/common/services/clock/sam4l/dfll.o \
@@ -133,6 +135,7 @@ src/main.o
 OBJS_AS_ARGS +=  \
 src/ASF/sam/drivers/usart/usart.o \
 src/LTE_interface.o \
+src/SARA_response_list.o \
 src/ASF/common/services/serial/usart_serial.o \
 src/ASF/common/services/delay/sam/cycle_counter.o \
 src/ASF/common/services/clock/sam4l/dfll.o \
@@ -153,6 +156,7 @@ src/main.o
 C_DEPS +=  \
 src/ASF/sam/drivers/usart/usart.d \
 src/LTE_interface.d \
+src/SARA_response_list.d \
 src/ASF/common/services/serial/usart_serial.d \
 src/ASF/common/services/delay/sam/cycle_counter.d \
 src/ASF/common/services/clock/sam4l/dfll.d \
@@ -173,6 +177,7 @@ src/main.d
 C_DEPS_AS_ARGS +=  \
 src/ASF/sam/drivers/usart/usart.d \
 src/LTE_interface.d \
+src/SARA_response_list.d \
 src/ASF/common/services/serial/usart_serial.d \
 src/ASF/common/services/delay/sam/cycle_counter.d \
 src/ASF/common/services/clock/sam4l/dfll.d \
@@ -205,6 +210,8 @@ LINKER_SCRIPT_DEP+=  \
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 
